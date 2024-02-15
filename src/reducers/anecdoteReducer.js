@@ -40,10 +40,27 @@ const reducer = (state = initialState, action) => {
       }
       return state;
 
-    // Otros casos de acción pueden agregarse aquí
+    case "ADD_ANECDOTE":
+      const newAnecdote = {
+        content: action.data.content,
+        id: getId(),
+        votes: 0,
+      };
+      return [...state, newAnecdote];
+
     default:
       return state;
   }
+};
+
+// En el mismo archivo donde defines tu reducer
+export const addAnecdote = (content) => {
+  return {
+    type: "ADD_ANECDOTE",
+    data: {
+      content,
+    },
+  };
 };
 
 export default reducer;
