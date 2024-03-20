@@ -9,12 +9,12 @@ const AnecdoteForm = () => {
     event.preventDefault();
     const content = event.target.anecdote.value;
     dispatch(addAnecdote(content));
-    // Limpia el formulario u realiza otras acciones necesarias
+    event.target.anecdote.value = ""; // Limpiar el campo después de agregar
   };
 
   return (
     <>
-      <h2>create new</h2>
+      <h2>Create new</h2>
       <form onSubmit={addNewAnecdote}>
         <input name="anecdote" />
         <button type="submit">Add Anecdote</button>

@@ -6,7 +6,7 @@ const AnecdoteList = ({ anecdotes }) => {
   const dispatch = useDispatch();
 
   const vote = (id) => {
-    dispatch(voteAnecdote(id));
+    dispatch(voteAnecdote({ id }));
   };
 
   return (

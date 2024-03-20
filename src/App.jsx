@@ -5,8 +5,9 @@ import AnecdoteList from "./components/AnecdoteList";
 import Filter from "./components/Filter";
 
 const App = () => {
+  // Utiliza useSelector para acceder a la lista de anécdotas desde el estado
   const anecdotes = useSelector((state) =>
-    state.anecdotes.sort((a, b) => b.votes - a.votes),
+    state.anecdotes.slice().sort((a, b) => b.votes - a.votes),
   );
 
   return (

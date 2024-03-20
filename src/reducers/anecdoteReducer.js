@@ -1,70 +1,58 @@
-const anecdotesAtStart = [
-  "If it hurts, do it more often",
-  "Adding manpower to a late software project makes it later!",
-  "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
-  "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
-  "Premature optimization is the root of all evil.",
-  "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = [
+  { id: "1", content: "If it hurts, do it more often", votes: 0 },
+  {
+    id: "2",
+    content: "Adding manpower to a late software project makes it later!",
+    votes: 0,
+  },
+  {
+    id: "3",
+    content:
+      "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
+    votes: 0,
+  },
+  {
+    id: "4",
+    content:
+      "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+    votes: 0,
+  },
+  {
+    id: "5",
+    content: "Premature optimization is the root of all evil.",
+    votes: 0,
+  },
+  {
+    id: "6",
+    content:
+      "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
+    votes: 0,
+  },
 ];
 
-const getId = () => (100000 * Math.random()).toFixed(0);
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0,
-  };
-};
-
-const initialState = anecdotesAtStart.map(asObject);
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "VOTE":
-      const id = action.data.id;
-      const anecdoteToVote = state.find((anecdote) => anecdote.id === id);
-
-      if (anecdoteToVote) {
-        const updatedAnecdote = {
-          ...anecdoteToVote,
-          votes: anecdoteToVote.votes + 1,
-        };
-
-        return state.map((anecdote) =>
-          anecdote.id !== id ? anecdote : updatedAnecdote,
-        );
-      }
-      return state;
-
-    case "ADD_ANECDOTE":
-      const newAnecdote = {
-        content: action.data.content,
-        id: getId(),
+const anecdoteSlice = createSlice({
+  name: "anecdotes",
+  initialState,
+  reducers: {
+    addAnecdote: (state, action) => {
+      const content = action.payload;
+      state.push({
+        content,
+        id: (100000 * Math.random()).toFixed(0),
         votes: 0,
-      };
-      return [...state, newAnecdote];
-
-    default:
-      return state;
-  }
-};
-
-// Creadores de acciones
-export const voteAnecdote = (id) => {
-  return {
-    type: "VOTE",
-    data: { id },
-  };
-};
-
-export const addAnecdote = (content) => {
-  return {
-    type: "ADD_ANECDOTE",
-    data: {
-      content,
+      });
     },
-  };
-};
+    voteAnecdote: (state, action) => {
+      const id = action.payload.id;
+      const anecdoteToVote = state.find((anecdote) => anecdote.id === id);
+      if (anecdoteToVote) {
+        anecdoteToVote.votes += 1;
+      }
+    },
+  },
+});
 
-export default reducer;
+export const { addAnecdote, voteAnecdote } = anecdoteSlice.actions;
+export default anecdoteSlice.reducer;
