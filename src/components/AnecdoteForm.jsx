@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { addAnecdote } from "../reducers/anecdoteReducer";
+import { showNotification } from "../reducers/notificationReducer";
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
@@ -9,18 +10,15 @@ const AnecdoteForm = () => {
     event.preventDefault();
     const content = event.target.anecdote.value;
     dispatch(addAnecdote(content));
-    event.target.anecdote.value = ""; // Limpiar el campo después de agregar
+    dispatch(showNotification("Anécdota agregada correctamente."));
+    event.target.anecdote.value = "";
   };
 
   return (
-    <>
-      <h2>Create new</h2>
-      <form onSubmit={addNewAnecdote}>
-        <input name="anecdote" />
-        <button type="submit">Add Anecdote</button>
-      </form>
-      <br />
-    </>
+    <form onSubmit={addNewAnecdote}>
+      <input name="anecdote" />
+      <button type="submit">Agregar Anécdota</button>
+    </form>
   );
 };
 
